@@ -37,6 +37,8 @@
             this.topGroupBoxLabel = new System.Windows.Forms.Label();
             this.folderPathTextBox = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.logTextBox = new System.Windows.Forms.TextBox();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.topGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +47,7 @@
             this.localPathBrowseButton.Location = new System.Drawing.Point(395, 36);
             this.localPathBrowseButton.Name = "localPathBrowseButton";
             this.localPathBrowseButton.Size = new System.Drawing.Size(110, 23);
-            this.localPathBrowseButton.TabIndex = 0;
+            this.localPathBrowseButton.TabIndex = 2;
             this.localPathBrowseButton.Text = "Browse folder...";
             this.localPathBrowseButton.UseVisualStyleBackColor = true;
             this.localPathBrowseButton.Click += new System.EventHandler(this.localPathBrowseButton_Click);
@@ -72,7 +74,7 @@
             this.stopButton.Location = new System.Drawing.Point(314, 89);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(75, 23);
-            this.stopButton.TabIndex = 6;
+            this.stopButton.TabIndex = 4;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -92,15 +94,15 @@
             this.fileExtensionLabel.AutoSize = true;
             this.fileExtensionLabel.Location = new System.Drawing.Point(3, 94);
             this.fileExtensionLabel.Name = "fileExtensionLabel";
-            this.fileExtensionLabel.Size = new System.Drawing.Size(75, 13);
+            this.fileExtensionLabel.Size = new System.Drawing.Size(136, 13);
             this.fileExtensionLabel.TabIndex = 4;
-            this.fileExtensionLabel.Text = "File Extension:";
+            this.fileExtensionLabel.Text = "File Extension (without dot):";
             // 
             // fileExtensionTextBox
             // 
-            this.fileExtensionTextBox.Location = new System.Drawing.Point(84, 91);
+            this.fileExtensionTextBox.Location = new System.Drawing.Point(145, 91);
             this.fileExtensionTextBox.Name = "fileExtensionTextBox";
-            this.fileExtensionTextBox.Size = new System.Drawing.Size(60, 20);
+            this.fileExtensionTextBox.Size = new System.Drawing.Size(113, 20);
             this.fileExtensionTextBox.TabIndex = 3;
             // 
             // topGroupBoxLabel
@@ -109,9 +111,10 @@
             this.topGroupBoxLabel.ForeColor = System.Drawing.Color.CornflowerBlue;
             this.topGroupBoxLabel.Location = new System.Drawing.Point(6, 22);
             this.topGroupBoxLabel.Name = "topGroupBoxLabel";
-            this.topGroupBoxLabel.Size = new System.Drawing.Size(371, 13);
+            this.topGroupBoxLabel.Size = new System.Drawing.Size(424, 13);
             this.topGroupBoxLabel.TabIndex = 2;
-            this.topGroupBoxLabel.Text = "Please choose a folder to watch, specified files will be uploaded automatically";
+            this.topGroupBoxLabel.Text = "Please choose a folder to watch, all files in specified folder will be uploaded a" +
+    "utomatically";
             // 
             // folderPathTextBox
             // 
@@ -124,11 +127,32 @@
             // 
             this.folderBrowserDialog.Description = "Folder browser dialog for watcher";
             // 
+            // logTextBox
+            // 
+            this.logTextBox.Location = new System.Drawing.Point(12, 154);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.Size = new System.Drawing.Size(511, 92);
+            this.logTextBox.TabIndex = 6;
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(404, 138);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(82, 13);
+            this.statusLabel.TabIndex = 6;
+            this.statusLabel.Text = "Status: On Hold";
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 258);
+            this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.topGroupBox);
             this.MaximizeBox = false;
             this.Name = "mainForm";
@@ -136,6 +160,7 @@
             this.topGroupBox.ResumeLayout(false);
             this.topGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -150,6 +175,8 @@
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
+        private System.Windows.Forms.TextBox logTextBox;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 
