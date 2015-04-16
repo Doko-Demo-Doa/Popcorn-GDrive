@@ -9,6 +9,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+
 using System.Threading;
 using System.IO;
 
@@ -61,7 +62,7 @@ namespace Popcorn_GDrive
         ///
         ///</summary>
         
-        public static DriveService AuthenticateServiceAccount(string serviceAccountEmail, string keyFilePath)
+        /*public static DriveService AuthenticateServiceAccount(string serviceAccountEmail, string keyFilePath)
         {
             //Check if the file exists
             if (!File.Exists(keyFilePath))
@@ -103,7 +104,7 @@ namespace Popcorn_GDrive
                 return null;
             }
 
-        }
+        }*/
 
     }
 }

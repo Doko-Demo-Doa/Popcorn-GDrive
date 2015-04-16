@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.localPathBrowseButton = new System.Windows.Forms.Button();
             this.topGroupBox = new System.Windows.Forms.GroupBox();
             this.stopButton = new System.Windows.Forms.Button();
@@ -37,8 +38,9 @@
             this.topGroupBoxLabel = new System.Windows.Forms.Label();
             this.folderPathTextBox = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.logTextBox = new System.Windows.Forms.TextBox();
             this.statusLabel = new System.Windows.Forms.Label();
+            this.timerEditNotify = new System.Windows.Forms.Timer(this.components);
+            this.logListBox = new System.Windows.Forms.ListBox();
             this.topGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,32 +129,37 @@
             // 
             this.folderBrowserDialog.Description = "Folder browser dialog for watcher";
             // 
-            // logTextBox
-            // 
-            this.logTextBox.Location = new System.Drawing.Point(12, 154);
-            this.logTextBox.Multiline = true;
-            this.logTextBox.Name = "logTextBox";
-            this.logTextBox.Size = new System.Drawing.Size(511, 92);
-            this.logTextBox.TabIndex = 6;
-            // 
             // statusLabel
             // 
             this.statusLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(404, 138);
+            this.statusLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.statusLabel.Location = new System.Drawing.Point(407, 138);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(82, 13);
-            this.statusLabel.TabIndex = 6;
+            this.statusLabel.Size = new System.Drawing.Size(116, 13);
+            this.statusLabel.TabIndex = 0;
             this.statusLabel.Text = "Status: On Hold";
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // timerEditNotify
+            // 
+            this.timerEditNotify.Enabled = true;
+            this.timerEditNotify.Tick += new System.EventHandler(this.timerEditNotify_Tick);
+            // 
+            // logListBox
+            // 
+            this.logListBox.FormattingEnabled = true;
+            this.logListBox.Location = new System.Drawing.Point(12, 154);
+            this.logListBox.Name = "logListBox";
+            this.logListBox.Size = new System.Drawing.Size(511, 95);
+            this.logListBox.TabIndex = 7;
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 258);
+            this.Controls.Add(this.logListBox);
             this.Controls.Add(this.statusLabel);
-            this.Controls.Add(this.logTextBox);
             this.Controls.Add(this.topGroupBox);
             this.MaximizeBox = false;
             this.Name = "mainForm";
@@ -160,7 +167,6 @@
             this.topGroupBox.ResumeLayout(false);
             this.topGroupBox.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -175,8 +181,9 @@
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.TextBox logTextBox;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Timer timerEditNotify;
+        private System.Windows.Forms.ListBox logListBox;
     }
 }
 
