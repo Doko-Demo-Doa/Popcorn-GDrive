@@ -15,12 +15,14 @@ using Google.Apis.Drive.v2;
 using Google.Apis.Drive.v2.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using System.Net;
 
 namespace Popcorn_GDrive
 {
     public partial class mainForm : Form
     {
         private StringBuilder m_StringBuilder;
+        private StringBuilder m_StringBuilder_FilePathOnly;
         private bool isFolderFilled;
         private System.IO.FileSystemWatcher fileSystemWatcher;
         private bool isFolderBeingWatched;
@@ -35,44 +37,64 @@ namespace Popcorn_GDrive
             folderPathTextBox.Text = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             isFolderBeingWatched = false;
             m_StringBuilder = new StringBuilder();
+            m_StringBuilder_FilePathOnly = new StringBuilder();
             statusLabel.ForeColor = Color.Black;
             isLogListBoxFilled = false;
         }
-     
+
+        DriveService service;
+
+        string CLIENT_ID = "955747678289-di31d331tfe81m0hdo77fhv8siphkq2d.apps.googleusercontent.com";
+        string CLIENT_SECRET = "ftRHdShzYZuHIDH9RckrfUcw";
 
         private void startButton_Click(object sender, EventArgs e)
         {
 
-            if (Directory.Exists(folderPathTextBox.Text))
+            if (CheckInternetConnection() == true)
             {
-                fileSystemWatcher = new System.IO.FileSystemWatcher();
-                fileSystemWatcher.IncludeSubdirectories = true;
-                isFolderBeingWatched = true;
-                stopButton.Enabled = true; //Enable Stop button after pressing Start button
-                startButton.Enabled = false; //Disable Start button itself after pressing
 
-                fileSystemWatcher.Filter = "*.*";
-                fileSystemWatcher.Path = folderPathTextBox.Text + "\\";
+                if (Directory.Exists(folderPathTextBox.Text))
+                {
+                    fileSystemWatcher = new System.IO.FileSystemWatcher();
+                    fileSystemWatcher.IncludeSubdirectories = true;
+                    isFolderBeingWatched = true;
+                    stopButton.Enabled = true; //Enable Stop button after pressing Start button
+                    startButton.Enabled = false; //Disable Start button itself after pressing
 
-                fileSystemWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite |
-                                                NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                    fileSystemWatcher.Filter = "*.*";
+                    fileSystemWatcher.Path = folderPathTextBox.Text + "\\";
 
-                fileSystemWatcher.Changed += new FileSystemEventHandler(OnChanged);
-                fileSystemWatcher.Created += new FileSystemEventHandler(OnChanged);
-                fileSystemWatcher.Deleted += new FileSystemEventHandler(OnChanged);
+                    fileSystemWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite |
+                                                    NotifyFilters.FileName | NotifyFilters.DirectoryName;
 
-                fileSystemWatcher.EnableRaisingEvents = true;
+                    fileSystemWatcher.Changed += new FileSystemEventHandler(OnChanged);
+                    fileSystemWatcher.Created += new FileSystemEventHandler(OnChanged);
+                    fileSystemWatcher.Deleted += new FileSystemEventHandler(OnChanged);
 
-                uploadFile(Authentication.AuthenticateOauth("955747678289-di31d331tfe81m0hdo77fhv8siphkq2d.apps.googleusercontent.com",
-                                                            "ftRHdShzYZuHIDH9RckrfUcw","Doko"), "D:\\document.txt");
+                    fileSystemWatcher.EnableRaisingEvents = true;
+
+                    DriveService service = Authentication.AuthenticateOauth(CLIENT_ID, CLIENT_SECRET, Environment.UserName);
+
+                    if (service == null)
+                        MessageBox.Show("Authentication Failed!");
+                    else
+                    {
+                        authenticationLabel.ForeColor = Color.LimeGreen;
+                        authenticationLabel.Text = "Authenticated";
+                    }
+
+                    //MessageBox.Show(folderPathTextBox.Text.ToString() + @"\document.txt");
+                }
+
+                else
+                    MessageBox.Show("Not good, check your file path again."); //Placeholder
             }
 
             else
             {
-                MessageBox.Show("Not good, check your file path again."); //Placeholder
+                MessageBox.Show("Could not connect to Drive, please check your internet connection");
             }
 
-            logListBox.Text += ("WTF" + Environment.NewLine);
             statusLabel.Text = "Status: Processing";
         }
 
@@ -86,6 +108,10 @@ namespace Popcorn_GDrive
                 m_StringBuilder.Append(e.ChangeType.ToString());
                 m_StringBuilder.Append("  |  ");
                 m_StringBuilder.Append(DateTime.Now.ToString());
+
+                m_StringBuilder_FilePathOnly.Remove(0, m_StringBuilder_FilePathOnly.Length);
+                m_StringBuilder_FilePathOnly.Append(e.FullPath);
+
                 isLogListBoxFilled = true;
             }
 
@@ -101,7 +127,15 @@ namespace Popcorn_GDrive
             isLogListBoxFilled = false;
             logListBox.Items.Clear();
 
-            statusLabel.Text = "Stopped";
+            statusLabel.Text = "Status: Stopped";
+
+            if (Directory.Exists(@"C:\Users\Sophia\AppData\Roaming\Popcorn-GDrive.Auth.Store"))
+            {
+                Directory.Delete(@"C:\Users\Sophia\AppData\Roaming\Popcorn-GDrive.Auth.Store", true);
+            }
+
+            authenticationLabel.Text = "Deleted authentication cache";
+            authenticationLabel.ForeColor = Color.Red;
         }
 
         private void localPathBrowseButton_Click(object sender, EventArgs e)
@@ -120,8 +154,29 @@ namespace Popcorn_GDrive
             {
                 logListBox.BeginUpdate();
                 logListBox.Items.Add(m_StringBuilder.ToString());
+
+                DriveService service = Authentication.AuthenticateOauth(CLIENT_ID, CLIENT_SECRET, Environment.UserName);
+                DriveFunctions.uploadFile(service, m_StringBuilder_FilePathOnly.ToString());
+
                 logListBox.EndUpdate();
                 isLogListBoxFilled = false;
+            }
+        }
+
+        public static bool CheckInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (var stream  = client.OpenRead("http://drive.google.com"))
+                {
+                    return true;
+                }
+            }
+
+            catch
+            {
+                return false;
             }
         }
     }

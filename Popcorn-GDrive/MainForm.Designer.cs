@@ -41,6 +41,7 @@
             this.statusLabel = new System.Windows.Forms.Label();
             this.timerEditNotify = new System.Windows.Forms.Timer(this.components);
             this.logListBox = new System.Windows.Forms.ListBox();
+            this.authenticationLabel = new System.Windows.Forms.Label();
             this.topGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -153,20 +154,32 @@
             this.logListBox.Size = new System.Drawing.Size(511, 95);
             this.logListBox.TabIndex = 7;
             // 
+            // authenticationLabel
+            // 
+            this.authenticationLabel.AutoSize = true;
+            this.authenticationLabel.Location = new System.Drawing.Point(12, 138);
+            this.authenticationLabel.Name = "authenticationLabel";
+            this.authenticationLabel.Size = new System.Drawing.Size(92, 13);
+            this.authenticationLabel.TabIndex = 8;
+            this.authenticationLabel.Text = "Not authenticated";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(535, 258);
+            this.Controls.Add(this.authenticationLabel);
             this.Controls.Add(this.logListBox);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.topGroupBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "mainForm";
             this.Text = "Popcorn-GDrive";
             this.topGroupBox.ResumeLayout(false);
             this.topGroupBox.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -184,6 +197,7 @@
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Timer timerEditNotify;
         private System.Windows.Forms.ListBox logListBox;
+        private System.Windows.Forms.Label authenticationLabel;
     }
 }
 

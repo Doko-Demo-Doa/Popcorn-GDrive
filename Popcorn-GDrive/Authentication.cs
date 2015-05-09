@@ -52,7 +52,6 @@ namespace Popcorn_GDrive
             {
                 throw e;
                 //Console.WriteLine(e.InnerException);
-                return null;
             }
         }
 
@@ -72,7 +71,7 @@ namespace Popcorn_GDrive
             }
 
             string[] scopes = new string[] {    DriveService.Scope.Drive, //View and manage files and documents
-                                                DriveService.Scope.DriveAppdata, //View and manage its own configuration data
+                                                //DriveService.Scope.DriveAppdata, //View and manage its own configuration data
                                                 DriveService.Scope.DriveAppsReadonly, //View and manage drive apps
                                                 DriveService.Scope.DriveFile, //View and manage files created by Popcorn-GDrive
                                                 DriveService.Scope.DriveMetadataReadonly, //View metadata for files
@@ -80,7 +79,7 @@ namespace Popcorn_GDrive
                                                 DriveService.Scope.DriveScripts, //View your app scripts
             };
 
-            var certificate = new X509Certificate2(keyFilePath, "doko", X509KeyStorageFlags.Exportable);
+            var certificate = new X509Certificate2(keyFilePath, "notasecret", X509KeyStorageFlags.Exportable);
             try
             {
                 ServiceAccountCredential credential = new ServiceAccountCredential(
@@ -100,7 +99,7 @@ namespace Popcorn_GDrive
 
             catch (Exception e)
             {
-                Console.WriteLine(e.InnerException);
+                //Console.WriteLine(e.InnerException);
                 return null;
             }
 
