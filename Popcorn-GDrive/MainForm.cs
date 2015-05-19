@@ -45,8 +45,8 @@ namespace Popcorn_GDrive
 
         DriveService service;
 
-        string CLIENT_ID = "955747678289-di31d331tfe81m0hdo77fhv8siphkq2d.apps.googleusercontent.com";
-        string CLIENT_SECRET = "ftRHdShzYZuHIDH9RckrfUcw";
+        string CLIENT_ID = " ";
+        string CLIENT_SECRET = " ";
 
         private void startButton_Click(object sender, EventArgs e)
         {
