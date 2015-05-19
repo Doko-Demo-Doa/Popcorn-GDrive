@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
 
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v2;
@@ -23,6 +22,7 @@ namespace Popcorn_GDrive
     {
         private StringBuilder m_StringBuilder;
         private StringBuilder m_StringBuilder_FilePathOnly;
+        private StringBuilder m_StringBuilder_FileExtensionOnly;
         private bool isFolderFilled;
         private System.IO.FileSystemWatcher fileSystemWatcher;
         private bool isFolderBeingWatched;
@@ -38,14 +38,15 @@ namespace Popcorn_GDrive
             isFolderBeingWatched = false;
             m_StringBuilder = new StringBuilder();
             m_StringBuilder_FilePathOnly = new StringBuilder();
+            m_StringBuilder_FileExtensionOnly = new StringBuilder();
             statusLabel.ForeColor = Color.Black;
             isLogListBoxFilled = false;
         }
 
         DriveService service;
 
-        string CLIENT_ID = " ";
-        string CLIENT_SECRET = " ";
+        string CLIENT_ID = "955747678289-di31d331tfe81m0hdo77fhv8siphkq2d.apps.googleusercontent.com";
+        string CLIENT_SECRET = "ftRHdShzYZuHIDH9RckrfUcw";
 
         private void startButton_Click(object sender, EventArgs e)
         {
@@ -73,7 +74,7 @@ namespace Popcorn_GDrive
 
                     fileSystemWatcher.EnableRaisingEvents = true;
 
-                    DriveService service = Authentication.AuthenticateOauth(CLIENT_ID, CLIENT_SECRET, Environment.UserName);
+                    DriveService service =  Authentication.AuthenticateOauth(CLIENT_ID, CLIENT_SECRET, Environment.UserName);
 
                     if (service == null)
                         MessageBox.Show("Authentication Failed!");
@@ -112,6 +113,11 @@ namespace Popcorn_GDrive
                 m_StringBuilder_FilePathOnly.Remove(0, m_StringBuilder_FilePathOnly.Length);
                 m_StringBuilder_FilePathOnly.Append(e.FullPath);
 
+                m_StringBuilder_FileExtensionOnly.Remove(0, m_StringBuilder_FileExtensionOnly.Length);
+                m_StringBuilder_FileExtensionOnly.Append(Path.GetExtension(e.FullPath));
+
+                MessageBox.Show(m_StringBuilder_FileExtensionOnly.ToString());
+
                 isLogListBoxFilled = true;
             }
 
@@ -148,6 +154,7 @@ namespace Popcorn_GDrive
             }
         }
 
+
         private void timerEditNotify_Tick(object sender, EventArgs e)
         {
             if (isLogListBoxFilled)
@@ -156,9 +163,13 @@ namespace Popcorn_GDrive
                 logListBox.Items.Add(m_StringBuilder.ToString());
 
                 DriveService service = Authentication.AuthenticateOauth(CLIENT_ID, CLIENT_SECRET, Environment.UserName);
-                DriveFunctions.uploadFile(service, m_StringBuilder_FilePathOnly.ToString());
+                String fileID = DriveFunctions.uploadFile(service, m_StringBuilder_FilePathOnly.ToString());
+           
+
+                //
 
                 logListBox.EndUpdate();
+                //System.IO.File.Delete(m_StringBuilder_FilePathOnly.ToString());
                 isLogListBoxFilled = false;
             }
         }

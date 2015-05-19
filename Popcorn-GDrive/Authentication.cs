@@ -29,7 +29,7 @@ namespace Popcorn_GDrive
                                             DriveService.Scope.DriveFile, //View and manage files created by Popcorn-GDrive
                                             DriveService.Scope.DriveMetadataReadonly, //View metadata for files
                                             DriveService.Scope.DriveReadonly, //View (only) files and documents on your drive
-                                            DriveService.Scope.DriveScripts, //View your app scripts
+                                            /*DriveService.Scope.DriveScripts,*/ //View your app scripts
             };
 
             try
@@ -58,10 +58,10 @@ namespace Popcorn_GDrive
         ///<summary>
         ///2nd method: Authenticate to Google using Service account
         ///Docs: https://developers.google.com/accounts/docs/OAuth2#serviceaccount
-        ///
+        ///TL;DR: Use your own account to interact with data
         ///</summary>
         
-        /*public static DriveService AuthenticateServiceAccount(string serviceAccountEmail, string keyFilePath)
+        public static DriveService AuthenticateServiceAccount(string serviceAccountEmail, string keyFilePath)
         {
             //Check if the file exists
             if (!File.Exists(keyFilePath))
@@ -103,7 +103,7 @@ namespace Popcorn_GDrive
                 return null;
             }
 
-        }*/
+        }
 
     }
 }

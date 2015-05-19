@@ -22,7 +22,7 @@ namespace Popcorn_GDrive
                 mimeType = regKey.GetValue("Content Type").ToString();
             return mimeType;
         }
-        public static File uploadFile(DriveService service, string localFilePath)
+        public static String /*File*/ uploadFile(DriveService service, string localFilePath)
         {
             if (System.IO.File.Exists(localFilePath))
             {
@@ -40,7 +40,9 @@ namespace Popcorn_GDrive
                 {
                     FilesResource.InsertMediaUpload request = service.Files.Insert(body, stream, GetMimeType(localFilePath));
                     request.Upload();
-                    return request.ResponseBody;
+
+                    //String fileID = request.ResponseBody.Id;
+                    return request.ResponseBody.Id;
                 }
 
                 catch(Exception e)
